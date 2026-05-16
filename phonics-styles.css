@@ -1,0 +1,367 @@
+/**
+ * ============================================================
+ * Salon Booking Management System - Modern Stylesheet
+ * ============================================================
+ * Professional salon management interface
+ * Design: 2020s UK Office Environment
+ * Inspired by: Microsoft 365, Salesforce, modern SaaS platforms
+ * ============================================================
+ */
+
+/* ============================================================
+   Global Fonts & Base Styling
+   ============================================================ */
+body, 
+.x-panel-body, 
+.x-grid-cell-inner,
+.x-form-item-label,
+.x-btn,
+.x-window-text,
+.x-menu-item-text {
+    font-family: "Segoe UI", "Roboto", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+/* ExtJS Button Text */
+.x-btn-inner {
+    color: #242424 !important;
+    font-weight: 500;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #f5f7fa;
+}
+
+/* ============================================================
+   Header Area (Modern Flat Design)
+   ============================================================ */
+.erp-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    border-bottom: none;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+.erp-logo {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    text-shadow: none;
+}
+
+.erp-logo-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    margin-right: 12px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 32px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.erp-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+    margin-left: 16px;
+    margin-top: 0;
+    letter-spacing: 0.2px;
+    font-weight: 400;
+}
+
+.erp-userinfo {
+    margin-left: auto;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.erp-userinfo .user-name {
+    color: #ffffff;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 14px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.erp-userinfo .user-role {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.erp-userinfo a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    padding: 6px 16px;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.erp-userinfo a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+/* ============================================================
+   Footer Area
+   ============================================================ */
+.erp-footer {
+    background: #2d3748;
+    color: #a0aec0;
+    font-size: 12px;
+    text-align: center;
+    line-height: 36px;
+    border-top: none;
+    padding: 0 16px;
+}
+
+.erp-footer a {
+    color: #cbd5e0;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.erp-footer a:hover {
+    color: #fff;
+}
+
+/* ============================================================
+   Navigation Tree (Modern Sidebar)
+   ============================================================ */
+.x-tree-panel .x-panel-header {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    border: none;
+}
+
+.x-tree-panel .x-panel-header .x-title {
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-shadow: none;
+    letter-spacing: 0.3px;
+}
+
+.x-tree-panel .x-panel-body {
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+}
+
+.x-tree-node-text {
+    font-size: 13px;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.x-tree-node-leaf .x-tree-node-text {
+    color: #5a67d8;
+}
+
+.x-tree-node-over .x-tree-node-text {
+    background: #edf2f7;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+/* ============================================================
+   Tab Panel (Modern Tabs)
+   ============================================================ */
+.x-tab-bar {
+    background: #ffffff;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.x-tab {
+    border: none;
+    background: transparent;
+    margin-right: 4px;
+    padding: 10px 20px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.x-tab:hover {
+    background: #f7fafc;
+}
+
+.x-tab-active {
+    background: transparent;
+    border-bottom: 3px solid #667eea;
+    font-weight: 600;
+}
+
+.x-tab-inner {
+    color: #4a5568;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.x-tab-active .x-tab-inner {
+    color: #667eea;
+    font-weight: 600;
+}
+
+/* ============================================================
+   Status Badges (Modern Design)
+   ============================================================ */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending { background: #fef3c7; color: #92400e; }
+.status-confirmed { background: #d1fae5; color: #065f46; }
+.status-in-progress { background: #dbeafe; color: #1e40af; }
+.status-completed { background: #d1fae5; color: #065f46; }
+.status-cancelled { background: #fee2e2; color: #991b1b; }
+.status-no-show { background: #f3f4f6; color: #374151; }
+
+/* Priority Badges */
+.priority-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.priority-vip { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #ffffff; box-shadow: 0 2px 4px rgba(251, 191, 36, 0.3); }
+.priority-high { background: #fca5a5; color: #7f1d1d; }
+.priority-normal { background: #e5e7eb; color: #374151; }
+.priority-walk-in { background: #c7d2fe; color: #3730a3; }
+
+/* ============================================================
+   Grid Styling (Clean & Modern)
+   ============================================================ */
+.x-grid-header {
+    background: #f9fafb;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.x-grid-header-ct {
+    background: transparent;
+}
+
+.x-column-header {
+    background: transparent;
+    border-right: 1px solid #e5e7eb;
+    font-weight: 600;
+    color: #374151;
+    font-size: 13px;
+}
+
+.x-grid-row .x-grid-cell {
+    border-bottom: 1px solid #f3f4f6;
+    padding: 12px 8px;
+}
+
+.x-grid-row-alt .x-grid-cell {
+    background: #fafbfc;
+}
+
+.x-grid-row-over .x-grid-cell {
+    background: #f0f4f8 !important;
+}
+
+/* ============================================================
+   Buttons (Modern Flat Buttons)
+   ============================================================ */
+.x-btn {
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+.x-btn-default-small {
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.x-btn-over {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================================
+   Progress Bar (Modern Design)
+   ============================================================ */
+.progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+.progress-bar-fill.blue {
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.progress-bar-fill.green {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+.progress-bar-fill.red {
+    background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* ============================================================
+   Cards & Panels (Modern Material Design)
+   ============================================================ */
+.x-panel {
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+}
+
+.x-panel-header {
+    background: #ffffff;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid #e5e7eb;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.x-window {
+    border-radius: 10px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* ============================================================
+   Service Icons
+   ============================================================ */
+.service-icon {
+    font-size: 18px;
+    margin-right: 6px;
+}
