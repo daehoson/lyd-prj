@@ -259,6 +259,148 @@ Ext.onReady(function() {
         html: learningPathHtml,
         autoScroll: true
     });
+
+    // ============================================================
+    // Phonics Chart Panel
+    // ============================================================
+
+    // Chart tile click handler (exposed on PHONICS namespace so inline onclick can call it)
+    window.PHONICS.showPatternById = function(patternId) {
+        var record = PHONICS.Stores.patterns.findRecord('id', patternId);
+        if (record) {
+            showPatternDetails(record);
+        }
+    };
+
+    function buildTile(label, patternId, bgColor, textColor, borderColor) {
+        if (!label) {
+            return '<div class="pc-tile pc-tile-empty"></div>';
+        }
+        var style = 'background:' + bgColor + ';color:' + textColor + ';border:2px solid ' + borderColor + ';';
+        if (patternId) {
+            return '<div class="pc-tile pc-tile-link" style="' + style + '" onclick="PHONICS.showPatternById(\'' + patternId + '\')" title="Click to see \'' + label + '\' details">' + label + '</div>';
+        }
+        return '<div class="pc-tile" style="' + style + '">' + label + '</div>';
+    }
+
+    // Section colour palettes: [tileBg, tileText, tileBorder, headerBg]
+    var ALPHA_PAL  = ['#e0e7ff', '#1e3a8a', '#93c5fd', '#3b82f6'];
+    var COL1_PAL   = ['#fee2e2', '#7f1d1d', '#fca5a5', '#ef4444'];
+    var COL2_PAL   = ['#fff7ed', '#7c2d12', '#fdba74', '#f97316'];
+    var COL3_PAL   = ['#ecfeff', '#164e63', '#67e8f9', '#06b6d4'];
+    var COL4_PAL   = ['#f5f3ff', '#3b0764', '#c4b5fd', '#8b5cf6'];
+    var COL5_PAL   = ['#f0fdf4', '#14532d', '#86efac', '#22c55e'];
+    var COL6_PAL   = ['#fffbeb', '#713f12', '#fcd34d', '#f59e0b'];
+    var UNUSUAL_PAL = ['#f3f4f6', '#374151', '#d1d5db', '#6b7280'];
+
+    // ---- SECTION 1: ALPHABET ----
+    var alphabetRows = [
+        [['a',null],['b',null],['c',null],['d',null],['e',null],['f',null]],
+        [['g',null],['h',null],['i',null],['j',null],['k',null],['l',null]],
+        [['m',null],['n',null],['o',null],['p',null],['q',null],['r',null]],
+        [['s',null],['t',null],['u',null],['v',null],['w',null],['x',null]],
+        [['y',null],['z',null],['ch','ch'],['sh','sh'],['th','th-voiced'],['ng','ng']]
+    ];
+
+    var chartHtml = '<div class="phonics-chart">';
+
+    chartHtml += '<div class="pc-section-title" style="background:' + ALPHA_PAL[3] + ';">Alphabet &amp; Basic Digraphs</div>';
+    chartHtml += '<div class="pc-grid-6">';
+    alphabetRows.forEach(function(row) {
+        row.forEach(function(cell) {
+            chartHtml += buildTile(cell[0], cell[1], ALPHA_PAL[0], ALPHA_PAL[1], ALPHA_PAL[2]);
+        });
+    });
+    chartHtml += '</div>';
+
+    // ---- SECTION 2: MAIN SOUND PATTERNS (6-column table) ----
+    var col1 = [
+        ['ar','ar'], ['er','er'], ['or','or'], ['ir','ir'], ['ur','ur'],
+        ['air','air'], ['ear','ear'], ['all','all'], ['al','al']
+    ];
+    var col2 = [
+        ['? _e (soft)','soft-e'], ['oo (look)','oo-short'], ['oul (should)','oul'],
+        ['ea (head)','ea-soft'], ['ai (said)','ai-said'], ['',''], ['',''], ['',''], ['','']
+    ];
+    var col3 = [
+        ['a \u00d7 2','a-long'], ['ai (rain)','ai-rain'], ['ei (reindeer)','ei-long-a'],
+        ['ea (steak)','ea-long-a'], ['ay (bay)','ay'], ['ey (they)','ey-they'],
+        ['ure (sure)','ure'], ['aw (draw)','aw'], ['ou (loud)','ou-loud'], ['ow (cow)','ow-cow']
+    ];
+    var col4 = [
+        ['e \u00d7 2','e-long'], ['y \u00d7 3','y-e-sound'], ['ey (key)','ey-key'],
+        ['ea (beach)','ea-beach'], ['ie (chief)','ie-chief'], ['ee (bee)','ee'],
+        ['ei (either)','ei-long-e'], ['a_e','a_e'], ['e_e','e_e'], ['i_e','i_e'],
+        ['o_e','o_e'], ['u_e','u_e'], ['y_e','y_e']
+    ];
+    var col5 = [
+        ['i \u00d7 2','i-long'], ['y \u00d7 2','y-long'], ['ie (pie)','ie-pie'],
+        ['igh (fight)','igh'], ['uy (buy)','uy'], ['ui (squire)','ui-squire'],
+        ['u \u00d7 2','u-long'], ['ue (venue)','ue-venue']
+    ];
+    var col6 = [
+        ['o \u00d7 2','o-long'], ['ow (flow)','ow-flow'], ['oe (toe)','oe'],
+        ['oa (goat)','oa'], ['ou (soul)','ou-soul'], ['ue (blue)','ue-blue'],
+        ['ui (suit)','ui-suit'], ['ew (chew)','ew'], ['oo (zoo)','oo-zoo'],
+        ['ou (soup)','ou-soup']
+    ];
+
+    var cols = [col1, col2, col3, col4, col5, col6];
+    var pals = [COL1_PAL, COL2_PAL, COL3_PAL, COL4_PAL, COL5_PAL, COL6_PAL];
+    var colTitles = [
+        'R-Controlled &amp; Endings',
+        'Short &amp; Irregular',
+        'Long /e\u026a/ (long a)',
+        'Long /i\u02d0/ (long e) &amp; Magic e',
+        'Long /a\u026a/ (long i) &amp; /ju\u02d0/',
+        'Long /o\u028a/ &amp; Long /u\u02d0/ (oo)'
+    ];
+
+    var maxRows = 0;
+    cols.forEach(function(c) { if (c.length > maxRows) maxRows = c.length; });
+
+    chartHtml += '<div class="pc-section-title" style="background:#374151;">Sound Patterns</div>';
+    chartHtml += '<div class="pc-main-table-wrap"><table class="pc-main-table"><thead><tr>';
+    cols.forEach(function(c, idx) {
+        chartHtml += '<th class="pc-col-header" style="background:' + pals[idx][3] + ';color:#fff;">' + colTitles[idx] + '</th>';
+    });
+    chartHtml += '</tr></thead><tbody>';
+
+    for (var r = 0; r < maxRows; r++) {
+        chartHtml += '<tr>';
+        cols.forEach(function(col, idx) {
+            var cell = col[r] || ['', ''];
+            chartHtml += '<td class="pc-td">' + buildTile(cell[0], cell[1], pals[idx][0], pals[idx][1], pals[idx][2]) + '</td>';
+        });
+        chartHtml += '</tr>';
+    }
+    chartHtml += '</tbody></table></div>';
+
+    // ---- SECTION 3: UNUSUAL PATTERNS ----
+    chartHtml += '<div class="pc-section-note" style="background:#fef3c7;border-left:4px solid #f59e0b;">These groups are unusual. That is why they are separate:</div>';
+    chartHtml += '<div class="pc-section-title" style="background:' + UNUSUAL_PAL[3] + ';">Unusual Patterns</div>';
+
+    var unusualRows = [
+        [['kn (n)','kn-n'], ['ph (f)','ph-f'], ['th \u00d7 2','th-voiceless'], ['dge (j)','dg-j'], ['wh (w)','wh-w'], ['mb (m)','mb-m']],
+        [['wr (r)','wr-r'], ['ch (k)','ch-k'], ['gn (n)','gn-n'], ['rh (r)','rh-r'], ['ck (k)','ck'], ['qu (kw)','qu']],
+        [['c (s)','c-s'], ['g (j)','g-j'], ['',''], ['',''], ['',''], ['','']]
+    ];
+    chartHtml += '<div class="pc-grid-6">';
+    unusualRows.forEach(function(row) {
+        row.forEach(function(cell) {
+            chartHtml += buildTile(cell[0], cell[1], UNUSUAL_PAL[0], UNUSUAL_PAL[1], UNUSUAL_PAL[2]);
+        });
+    });
+    chartHtml += '</div>';
+
+    chartHtml += '</div>'; // end .phonics-chart
+
+    var phonicsChartPanel = Ext.create('Ext.panel.Panel', {
+        title: '📋 Phonics Chart',
+        html: chartHtml,
+        autoScroll: true,
+        bodyPadding: 0
+    });
     
     // ============================================================
     // Main Tab Panel
@@ -269,6 +411,7 @@ Ext.onReady(function() {
         items: [
             wordLookupPanel,
             patternsGrid,
+            // phonicsChartPanel,
             learningPathPanel
         ]
     });
@@ -374,49 +517,97 @@ Ext.onReady(function() {
     }
     
     function analyzeWord(word) {
-        // Simple phonics analyzer (can be enhanced)
-        var segments = [];
-        var sounds = [];
-        var i = 0;
-        
-        while (i < word.length) {
-            var found = false;
-            
-            // Check for 3-letter patterns
-            if (i + 2 < word.length) {
-                var three = word.substr(i, 3);
-                // Add common 3-letter patterns here if needed
+        var allPatterns = PHONICS.Stores.patterns.data.items;
+
+        // When the same letter sequence can match multiple patterns (e.g. 'ea' → /iː/ beach
+        // vs /e/ head), these IDs define which pattern to prefer in the auto-analyser.
+        var PREFERRED = {
+            'ea': 'ea-beach',  // /iː/ — the most common ea sound
+            'th': 'th-voiced', // /ð/  — covers very common function words (the, this, that)
+            'ei': 'ei-long-a', // /eɪ/ — the most common ei sound
+            'ow': 'ow-flow',   // /oʊ/ — the most common ow sound in written text
+            'ou': 'ou-loud',   // /aʊ/ — the most common ou sound
+            'ie': 'ie-chief',  // /iː/ — the most common ie sound
+            'ey': 'ey-key',    // /iː/ — most common ey sound (monkey, valley)
+            'oo': 'oo-zoo',    // /uː/ — the most common oo sound
+            'ui': 'ui-suit',   // /uː/ — the most common ui sound
+            'ue': 'ue-blue',   // /uː/ — the most common ue sound
+            'y':  'y-e-sound', // /iː/ — y×3 (longer words) is more frequent overall
+            'ai': 'ai-rain'    // /eɪ/ — the most common ai sound
+        };
+
+        // Build lookup: matchKey → pattern record.
+        // matchKey is the plain letter string extracted from the pattern display field;
+        // it strips × notation so "th × 2" → "th", "a × 2" → "a".
+        var lookup = {};
+        allPatterns.forEach(function(rec) {
+            var matchKey = rec.data.pattern.split(/[\s\u00d7]/)[0].toLowerCase().trim();
+            // Skip meta-patterns that use ? or _ (e.g. "? _e", "a_e")
+            if (!matchKey || matchKey.indexOf('?') !== -1 || matchKey.indexOf('_') !== -1) {
+                return;
             }
-            
-            // Check for 2-letter patterns (digraphs)
-            if (i + 1 < word.length && !found) {
-                var two = word.substr(i, 2);
-                var patterns = PHONICS.Stores.patterns.data.items;
-                
-                for (var p = 0; p < patterns.length; p++) {
-                    if (patterns[p].data.pattern === two) {
-                        segments.push(two);
-                        sounds.push(patterns[p].data.sound);
-                        i += 2;
-                        found = true;
-                        break;
-                    }
+            var preferredId = PREFERRED[matchKey];
+            if (preferredId) {
+                // For ambiguous keys always end up with the preferred record
+                if (rec.data.id === preferredId) {
+                    lookup[matchKey] = rec;          // definitive — overwrite any placeholder
+                } else if (!lookup[matchKey]) {
+                    lookup[matchKey] = rec;          // placeholder until the preferred entry appears
+                }
+            } else {
+                if (!lookup[matchKey]) {
+                    lookup[matchKey] = rec;          // first-seen wins for unambiguous patterns
                 }
             }
-            
-            // Single letter
-            if (!found) {
+        });
+
+        // Keep only multi-letter keys and sort longest-first for greedy matching.
+        // Single letters are handled by the fallback below.
+        var multiKeys = Object.keys(lookup)
+            .filter(function(k) { return k.length > 1; })
+            .sort(function(a, b) { return b.length - a.length; });
+
+        var segments   = [];
+        var sounds     = [];
+        var colors     = [];
+        var categories = [];
+        var i = 0;
+
+        while (i < word.length) {
+            var matched = false;
+
+            // Greedy: try the longest multi-letter pattern that fits at position i
+            for (var k = 0; k < multiKeys.length; k++) {
+                var key = multiKeys[k];
+                if (i + key.length <= word.length && word.substr(i, key.length) === key) {
+                    var rec = lookup[key];
+                    segments.push(key);
+                    sounds.push(rec.data.sound);
+                    colors.push(rec.data.color);
+                    categories.push(rec.data.category);
+                    i += key.length;
+                    matched = true;
+                    break;
+                }
+            }
+
+            // Single-letter fallback
+            if (!matched) {
                 var letter = word.charAt(i);
                 segments.push(letter);
                 sounds.push('/' + letter + '/');
+                colors.push('aeiou'.indexOf(letter) !== -1 ? '#3b82f6' : '#10b981');
+                categories.push('');
                 i++;
             }
         }
-        
+
         return {
             word: word,
             segments: segments,
             sounds: sounds,
+            colors: colors,
+            categories: categories,
             phase: 2
         };
     }
@@ -424,54 +615,60 @@ Ext.onReady(function() {
     function displayWordBreakdown(breakdown) {
         var html = '<div style="padding:30px;">';
         html += '<h2 style="margin-top:0; color:#111827;">Word: <span style="color:#667eea;">' + breakdown.word + '</span></h2>';
-        
+
         html += '<div style="margin:30px 0;">';
         html += '<h3>Phonetic Breakdown:</h3>';
         html += '<div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:15px;">';
-        
+
         for (var i = 0; i < breakdown.segments.length; i++) {
             var segment = breakdown.segments[i];
             var sound = breakdown.sounds[i] || '';
-            var color = getSegmentColor(segment);
-            
+            // Use pre-computed color from analyzeWord; fall back to pattern lookup for
+            // pre-defined breakdowns (from PHONICS.Data.wordBreakdowns)
+            var color = (breakdown.colors && breakdown.colors[i])
+                ? breakdown.colors[i]
+                : getSegmentColor(segment);
+
             html += '<div style="padding:15px 20px; background:' + color + '15; border:2px solid ' + color + '; border-radius:8px; text-align:center;">';
             html += '<div style="font-size:24px; font-weight:700; color:' + color + ';">' + segment + '</div>';
             html += '<div style="font-size:12px; color:#6b7280; margin-top:5px;">' + sound + '</div>';
             html += '</div>';
         }
-        
+
         html += '</div></div>';
-        
+
         html += '<div style="margin-top:30px; padding:15px; background:#f9fafb; border-radius:8px;">';
         html += '<div style="font-weight:600; margin-bottom:10px;">Segments Explained:</div>';
         html += '<ul style="margin:0; padding-left:20px;">';
-        
+
         for (var j = 0; j < breakdown.segments.length; j++) {
             var seg = breakdown.segments[j];
             var snd = breakdown.sounds[j];
-            html += '<li style="margin:5px 0;"><strong>' + seg + '</strong> makes the ' + snd + ' sound</li>';
+            var cat = (breakdown.categories && breakdown.categories[j])
+                ? ' <span style="font-size:11px; color:#9ca3af;">(' + breakdown.categories[j] + ')</span>'
+                : '';
+            html += '<li style="margin:5px 0;"><strong>' + seg + '</strong> makes the ' + snd + ' sound' + cat + '</li>';
         }
-        
+
         html += '</ul></div>';
         html += '</div>';
-        
+
         wordLookupResult.update(html);
     }
     
     function getSegmentColor(segment) {
-        // Find pattern color
+        // Find pattern color, matching both the exact display field and the
+        // bare letter key (strips × notation so "th × 2" still matches "th")
         var patterns = PHONICS.Stores.patterns.data.items;
         for (var i = 0; i < patterns.length; i++) {
-            if (patterns[i].data.pattern === segment) {
+            var raw = patterns[i].data.pattern;
+            var matchKey = raw.split(/[\s\u00d7]/)[0].toLowerCase().trim();
+            if (raw === segment || matchKey === segment) {
                 return patterns[i].data.color;
             }
         }
-        
-        // Default colors for vowels/consonants
-        if ('aeiou'.indexOf(segment.charAt(0)) !== -1) {
-            return '#3b82f6'; // Blue for vowels
-        }
-        return '#10b981'; // Green for consonants
+        // Default: blue for vowels, green for consonants
+        return 'aeiou'.indexOf(segment.charAt(0)) !== -1 ? '#3b82f6' : '#10b981';
     }
     
     function showPatternDetails(record) {

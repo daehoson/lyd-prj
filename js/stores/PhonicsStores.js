@@ -56,10 +56,12 @@
                 { value: '', text: 'All Categories' },
                 { value: 'Digraphs', text: 'Digraphs' },
                 { value: 'R-Controlled Vowels', text: 'R-Controlled Vowels' },
+                { value: 'Short Vowel Digraphs', text: 'Short Vowel Digraphs' },
+                { value: 'Long Vowels', text: 'Long Vowels (×2 / ×3)' },
+                { value: 'Long Vowel Digraphs', text: 'Long Vowel Digraphs' },
                 { value: 'Magic E', text: 'Magic E Patterns' },
                 { value: 'Double Letters', text: 'Double Letters' },
-                { value: 'Silent Letters', text: 'Silent Letters' },
-                { value: 'Letter Variants', text: 'Letter Variants' },
+                { value: 'Unusual Patterns', text: 'Unusual Patterns' },
                 { value: 'Special Patterns', text: 'Special Patterns' }
             ]
         });

@@ -365,3 +365,107 @@ body {
     font-size: 18px;
     margin-right: 6px;
 }
+
+/* ============================================================
+   Phonics Chart (📋 Phonics Chart tab)
+   ============================================================ */
+.phonics-chart {
+    padding: 20px;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.pc-section-title {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin: 20px 0 10px 0;
+    letter-spacing: 0.3px;
+}
+
+.pc-section-note {
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin: 18px 0 6px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #78350f;
+}
+
+/* 6-column grid used by Alphabet and Unusual sections */
+.pc-grid-6 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+/* Individual tile */
+.pc-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 6px 4px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+    box-sizing: border-box;
+    word-break: break-word;
+    user-select: none;
+}
+
+.pc-tile-empty {
+    background: transparent !important;
+    border: 2px dashed #e5e7eb !important;
+    opacity: 0.3;
+}
+
+.pc-tile-link {
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pc-tile-link:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    z-index: 1;
+    position: relative;
+}
+
+/* Main 6-column sound-pattern table */
+.pc-main-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 4px;
+}
+
+.pc-main-table {
+    border-collapse: separate;
+    border-spacing: 6px;
+    width: 100%;
+    min-width: 660px;
+}
+
+.pc-col-header {
+    padding: 8px 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.pc-td {
+    padding: 0;
+    vertical-align: top;
+}
+
+.pc-td .pc-tile {
+    width: 100%;
+}
+
