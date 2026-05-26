@@ -40,8 +40,8 @@ Ext.onReady(function() {
         + '<div class="erp-logo"><span class="erp-logo-icon">📚</span>' + PHONICS.Config.APP_NAME + '</div>'
         + '<div class="erp-subtitle">' + PHONICS.Config.APP_SUBTITLE + '</div>'
         + '<div class="erp-userinfo">'
-        + '<span class="user-role">● ' + PHONICS.Config.CURRENT_USER.role + '</span>'
-        + '<span class="user-name">' + PHONICS.Config.CURRENT_USER.name + '</span>'
+        // + '<span class="user-role">● ' + PHONICS.Config.CURRENT_USER.role + '</span>'
+        // + '<span class="user-name">' + PHONICS.Config.CURRENT_USER.name + '</span>'
         + '<a href="javascript:void(0)">Help</a>'
         + '</div>'
         + '</div>';
